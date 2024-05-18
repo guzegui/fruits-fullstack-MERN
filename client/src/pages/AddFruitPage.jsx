@@ -16,11 +16,17 @@ const AddFruitPage = () => {
       fiber: "",
       vitamins: {
         vitaminC: "",
+        vitaminK: "",
         vitaminA: "",
+        vitaminB6: "",
       },
       minerals: {
         potassium: "",
+        calcium: "",
         iron: "",
+        copper: "",
+        manganese: "",
+        magnesium: "",
       },
     },
     average_weight: "",
@@ -33,6 +39,24 @@ const AddFruitPage = () => {
     description: "",
     cultivation_tips: "",
   });
+
+  /*
+  vitamins: {
+            vitaminC: { type: Number },
+            vitaminA: { type: Number },
+            vitaminK: { type: Number },
+            vitaminB6: { type: Number }
+        },
+        minerals: {
+            potassium: { type: Number },
+            calcium: { type: Number },
+            iron: { type: Number },
+            copper: { type: Number },
+            manganese: { type: Number },
+            magnesium: { type: Number }
+        }
+  
+  */
 
   const usesOptions = [
     "eaten raw",
@@ -100,13 +124,42 @@ const AddFruitPage = () => {
         calories: parseFloat(fruitData.nutritional_values.calories),
         sugar: parseFloat(fruitData.nutritional_values.sugar),
         fiber: parseFloat(fruitData.nutritional_values.fiber),
+        vitamins: {
+          vitaminC: parseFloat(fruitData.nutritional_values.vitamins.vitaminC),
+          vitaminK: parseFloat(fruitData.nutritional_values.vitamins.vitaminK),
+          vitaminA: parseFloat(fruitData.nutritional_values.vitamins.vitaminA),
+          vitaminB6: parseFloat(
+            fruitData.nutritional_values.vitamins.vitaminB6
+          ),
+        },
+        minerals: {
+          potassium: parseFloat(
+            fruitData.nutritional_values.minerals.potassium
+          ),
+          calcium: parseFloat(fruitData.nutritional_values.minerals.calcium),
+          iron: parseFloat(fruitData.nutritional_values.minerals.iron),
+          copper: parseFloat(fruitData.nutritional_values.minerals.copper),
+          manganese: parseFloat(
+            fruitData.nutritional_values.minerals.manganese
+          ),
+          magnesium: parseFloat(
+            fruitData.nutritional_values.minerals.magnesium
+          ),
+        },
       },
     };
 
-    console.log("Submitting fruit data:", formattedFruitData);
+    console.log(
+      "Submitting fruit data:",
+      JSON.stringify(formattedFruitData, null, 2)
+    );
 
     axios
-      .post("http://localhost:5005/fruit", formattedFruitData)
+      .post("http://localhost:5005/fruit", formattedFruitData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then((response) => {
         console.log("Fruit added successfully!", response.data);
         navigate(`/fruit/${response.data._id}`);
@@ -300,25 +353,53 @@ const AddFruitPage = () => {
         <div>
           <label>Vitamin C:</label>
           <input
-            type="text"
+            type="number"
             name="nutritional_values.vitamins.vitaminC"
             value={fruitData.nutritional_values.vitamins.vitaminC}
             onChange={handleChange}
           />
         </div>
+
         <div>
           <label>Vitamin A:</label>
           <input
-            type="text"
+            type="number"
             name="nutritional_values.vitamins.vitaminA"
             value={fruitData.nutritional_values.vitamins.vitaminA}
             onChange={handleChange}
           />
         </div>
         <div>
+          <label>Vitamin K:</label>
+          <input
+            type="number"
+            name="nutritional_values.vitamins.vitaminC"
+            value={fruitData.nutritional_values.vitamins.vitaminC}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Vitamin B6:</label>
+          <input
+            type="number"
+            name="nutritional_values.vitamins.vitaminC"
+            value={fruitData.nutritional_values.vitamins.vitaminC}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
           <label>Potassium:</label>
           <input
-            type="text"
+            type="number"
+            name="nutritional_values.minerals.potassium"
+            value={fruitData.nutritional_values.minerals.potassium}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Calcium:</label>
+          <input
+            type="number"
             name="nutritional_values.minerals.potassium"
             value={fruitData.nutritional_values.minerals.potassium}
             onChange={handleChange}
@@ -327,7 +408,34 @@ const AddFruitPage = () => {
         <div>
           <label>Iron:</label>
           <input
-            type="text"
+            type="number"
+            name="nutritional_values.minerals.iron"
+            value={fruitData.nutritional_values.minerals.iron}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Copper:</label>
+          <input
+            type="number"
+            name="nutritional_values.minerals.iron"
+            value={fruitData.nutritional_values.minerals.iron}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Manganese:</label>
+          <input
+            type="number"
+            name="nutritional_values.minerals.iron"
+            value={fruitData.nutritional_values.minerals.iron}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Magnesium:</label>
+          <input
+            type="number"
             name="nutritional_values.minerals.iron"
             value={fruitData.nutritional_values.minerals.iron}
             onChange={handleChange}

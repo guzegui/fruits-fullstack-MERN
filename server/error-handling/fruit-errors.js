@@ -17,23 +17,7 @@ const validateFruit = (req, res, next) => {
     cultivation_tips,
   } = req.body;
 
-  const requiredFields = [
-    "name",
-    "color",
-    "taste",
-    "season",
-    "origin",
-    "nutritional_values",
-    "average_weight",
-    "price_per_kg",
-    "image_url",
-    "availability",
-    "family",
-    "varieties",
-    "uses",
-    "description",
-    "cultivation_tips",
-  ];
+  
   const tasteOptions = ["Sweet", "Sour"];
 
   const availabilityOptions = ["Year-round", "Seasonal"];
@@ -52,11 +36,10 @@ const validateFruit = (req, res, next) => {
     "dried",
   ];
 
-  for (let field of requiredFields) {
-    if (!req.body[field]) {
-      return res.status(400).json(`Fruit is missing required field: ${field}.`);
+if (!name) {
+      return res.status(400).json(`Fruit is missing required field: ${name}.`);
     }
-  }
+  
 
   if (typeof average_weight !== "number" || average_weight <= 0) {
     return res.status(400).json("Fruit average weight is not valid.");
@@ -108,7 +91,7 @@ const validateFruit = (req, res, next) => {
       if (
         vitamins &&
         vitamins[vitamin] &&
-        typeof vitamins[vitamin] !== "string"
+        typeof vitamins[vitamin] !== "number"
       ) {
         return res.status(400).json(`Fruit vitamin ${vitamin} is not valid.`);
       }
@@ -126,7 +109,7 @@ const validateFruit = (req, res, next) => {
       if (
         minerals &&
         minerals[mineral] &&
-        typeof minerals[mineral] !== "string"
+        typeof minerals[mineral] !== "number"
       ) {
         return res.status(400).json(`Fruit mineral ${mineral} is not valid.`);
       }

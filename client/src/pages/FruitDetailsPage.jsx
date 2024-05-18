@@ -51,7 +51,7 @@ function FruitDetailsPage() {
                   {Object.entries(fruit.nutritional_values.vitamins).map(
                     ([key, value]) => (
                       <li key={key}>
-                        {key}: {value}
+                        {key}: {value}% Daily Value
                       </li>
                     )
                   )}
@@ -63,7 +63,7 @@ function FruitDetailsPage() {
                   {Object.entries(fruit.nutritional_values.minerals).map(
                     ([key, value]) => (
                       <li key={key}>
-                        {key}: {value}
+                        {key}: {value}% Daily Value
                       </li>
                     )
                   )}
