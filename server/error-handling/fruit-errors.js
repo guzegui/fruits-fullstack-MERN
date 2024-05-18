@@ -34,8 +34,10 @@ const validateFruit = (req, res, next) => {
     "description",
     "cultivation_tips",
   ];
+  const tasteOptions = ["Sweet", "Sour"];
 
   const availabilityOptions = ["Year-round", "Seasonal"];
+
   const usesOptions = [
     "eaten raw",
     "used in desserts",
@@ -64,6 +66,9 @@ const validateFruit = (req, res, next) => {
     return res.status(400).json("Fruit price per kg is not valid.");
   }
 
+  if (!tasteOptions.includes(taste)) {
+    return res.status(400).json("Fruit taste is not valid.");
+  }
   if (!availabilityOptions.includes(availability)) {
     return res.status(400).json("Fruit availability is not valid.");
   }

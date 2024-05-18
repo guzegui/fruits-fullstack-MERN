@@ -3,8 +3,11 @@ const mongoose = require('mongoose');
 const fruitSchema = new mongoose.Schema({
     name: { type: String, required: true },
     color: { type: String, required: true },
-    taste: { type: String, required: true },
-    season: { type: String, required: true },
+    taste: {
+        type: String,
+        enum: ['Sweet', 'Sour'],
+        required: true
+    },    season: { type: String, required: true },
     origin: { type: String, required: true },
     nutritional_values: {
         calories: { type: Number, required: true },

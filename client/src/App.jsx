@@ -4,14 +4,14 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import axios from "axios";
 
-const fruit_url = "http://localhost:5173/fruit";
+const fruit_url = "http://localhost:5005";
 
 function App() {
   const [fruit, setFruit] = useState([]);
 
   useEffect(() => {
     axios
-      .get(fruit_url)
+      .get(`${fruit_url}/fruit`)
       .then((response) => {
         console.log(response.data);
         setFruit(response.data);
