@@ -95,21 +95,29 @@ const AddFruitPage = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     const nameParts = name.split(".");
-    if (nameParts.length > 1) {
-      setFruitData((prevData) => {
-        const nestedData = { ...prevData[nameParts[0]] };
-        nestedData[nameParts[1]] = value;
-        return {
-          ...prevData,
-          [nameParts[0]]: nestedData,
+
+    setFruitData((prevData) => {
+      let updatedData = { ...prevData };
+
+      if (nameParts.length === 2) {
+        updatedData[nameParts[0]] = {
+          ...prevData[nameParts[0]],
+          [nameParts[1]]: value,
         };
-      });
-    } else {
-      setFruitData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    }
+      } else if (nameParts.length === 3) {
+        updatedData[nameParts[0]] = {
+          ...prevData[nameParts[0]],
+          [nameParts[1]]: {
+            ...prevData[nameParts[0]][nameParts[1]],
+            [nameParts[2]]: value,
+          },
+        };
+      } else {
+        updatedData[name] = value;
+      }
+
+      return updatedData;
+    });
   };
 
   const handleSubmit = (e) => {
