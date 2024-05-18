@@ -1,21 +1,28 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-function AddFruitPage() {
+const AddFruitPage = () => {
+  const navigate = useNavigate();
   const [fruitData, setFruitData] = useState({
     name: "",
     color: "",
     taste: "",
     season: "",
     origin: "",
-    calories: "",
-    sugar: "",
-    fiber: "",
-    vitaminC: "",
-    vitaminB6: "",
-    potassium: "",
-    magnesium: "",
+    nutritional_values: {
+      calories: "",
+      sugar: "",
+      fiber: "",
+      vitamins: {
+        vitaminC: "",
+        vitaminA: "",
+      },
+      minerals: {
+        potassium: "",
+        iron: "",
+      },
+    },
     average_weight: "",
     price_per_kg: "",
     image_url: "",
@@ -26,48 +33,6 @@ function AddFruitPage() {
     description: "",
     cultivation_tips: "",
   });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFruitData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post("http://localhost:5005/fruit", fruitData);
-      console.log("Fruit added successfully!");
-      // Reset the form after successful submission
-      setFruitData({
-        name: "",
-        color: "",
-        taste: "",
-        season: "",
-        origin: "",
-        calories: "",
-        sugar: "",
-        fiber: "",
-        vitaminC: "",
-        vitaminB6: "",
-        potassium: "",
-        magnesium: "",
-        average_weight: "",
-        price_per_kg: "",
-        image_url: "",
-        availability: "",
-        family: "",
-        varieties: [],
-        uses: [],
-        description: "",
-        cultivation_tips: "",
-      });
-    } catch (error) {
-      console.error("Error adding fruit:", error);
-    }
-  };
 
   const usesOptions = [
     "eaten raw",
@@ -83,8 +48,82 @@ function AddFruitPage() {
     "dried",
   ];
 
+  const fruitEmojis = [
+    "🍎",
+    "🍏",
+    "🍐",
+    "🍊",
+    "🍋",
+    "🍌",
+    "🍉",
+    "🍇",
+    "🍓",
+    "🫐",
+    "🍈",
+    "🍒",
+    "🍑",
+    "🥭",
+    "🍍",
+    "🥥",
+    "🥝",
+  ];
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    const nameParts = name.split(".");
+    if (nameParts.length > 1) {
+      setFruitData((prevData) => {
+        const nestedData = { ...prevData[nameParts[0]] };
+        nestedData[nameParts[1]] = value;
+        return {
+          ...prevData,
+          [nameParts[0]]: nestedData,
+        };
+      });
+    } else {
+      setFruitData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Convert numerical fields to numbers
+    const formattedFruitData = {
+      ...fruitData,
+      average_weight: parseFloat(fruitData.average_weight),
+      price_per_kg: parseFloat(fruitData.price_per_kg),
+      nutritional_values: {
+        ...fruitData.nutritional_values,
+        calories: parseFloat(fruitData.nutritional_values.calories),
+        sugar: parseFloat(fruitData.nutritional_values.sugar),
+        fiber: parseFloat(fruitData.nutritional_values.fiber),
+      },
+    };
+
+    console.log("Submitting fruit data:", formattedFruitData);
+
+    axios
+      .post("http://localhost:5005/fruit", formattedFruitData)
+      .then((response) => {
+        console.log("Fruit added successfully!", response.data);
+        navigate(`/fruit/${response.data._id}`);
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.error("Error adding fruit:", error.response.data);
+          alert(`Error: ${error.response.data}`); // Display error message
+        } else {
+          console.error("Error adding fruit:", error.message);
+          alert(`Error: ${error.message}`); // Display error message
+        }
+      });
+  };
+
   return (
-    <div>
+    <div className="container">
       <h1>Add Fruit</h1>
       <form onSubmit={handleSubmit}>
         <div>
@@ -152,12 +191,18 @@ function AddFruitPage() {
         </div>
         <div>
           <label>Image URL:</label>
-          <input
-            type="text"
+          <select
             name="image_url"
             value={fruitData.image_url}
             onChange={handleChange}
-          />
+          >
+            <option value="">Select an emoji</option>
+            {fruitEmojis.map((emoji, index) => (
+              <option key={index} value={emoji}>
+                {emoji}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
           <label>Availability:</label>
@@ -226,6 +271,69 @@ function AddFruitPage() {
           ))}
         </div>
         <div>
+          <label>Calories:</label>
+          <input
+            type="number"
+            name="nutritional_values.calories"
+            value={fruitData.nutritional_values.calories}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Sugar:</label>
+          <input
+            type="number"
+            name="nutritional_values.sugar"
+            value={fruitData.nutritional_values.sugar}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Fiber:</label>
+          <input
+            type="number"
+            name="nutritional_values.fiber"
+            value={fruitData.nutritional_values.fiber}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Vitamin C:</label>
+          <input
+            type="text"
+            name="nutritional_values.vitamins.vitaminC"
+            value={fruitData.nutritional_values.vitamins.vitaminC}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Vitamin A:</label>
+          <input
+            type="text"
+            name="nutritional_values.vitamins.vitaminA"
+            value={fruitData.nutritional_values.vitamins.vitaminA}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Potassium:</label>
+          <input
+            type="text"
+            name="nutritional_values.minerals.potassium"
+            value={fruitData.nutritional_values.minerals.potassium}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Iron:</label>
+          <input
+            type="text"
+            name="nutritional_values.minerals.iron"
+            value={fruitData.nutritional_values.minerals.iron}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
           <label>Description:</label>
           <textarea
             name="description"
@@ -245,6 +353,6 @@ function AddFruitPage() {
       </form>
     </div>
   );
-}
+};
 
 export default AddFruitPage;
