@@ -1,25 +1,26 @@
-import { useState, useEffect } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
-import axios from "axios";
-
-const fruit_url = "http://localhost:5005";
+import { Routes, Route } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import AllFruitPage from "./pages/AllFruitPage";
+import RandomFruitPage from "./pages/RandomFruitPage";
+import AddFruitPage from "./pages/AddFruitPage";
+import FruitDetailsPage from "./pages/FruitDetailsPage";
+import Navbar from "./components/Navbar";
 
 function App() {
-  const [fruit, setFruit] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get(`${fruit_url}/fruit`)
-      .then((response) => {
-        console.log(response.data);
-        setFruit(response.data);
-      })
-      .catch((e) => console.log(`Error fetching data => ${e.message}`));
-  }, []);
-
-  return <>{`Here's the fruit ${fruit}`}</>;
+  return (
+    <div className="App">
+      <Navbar />
+      <h1>Fruit-o-Rama</h1>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/fruit" element={<AllFruitPage />} />
+        <Route path="/random-fruit" element={<RandomFruitPage />} />
+        <Route path="/new-fruit" element={<AddFruitPage />} />
+        <Route path="/fruit/:id" element={<FruitDetailsPage />} />
+      </Routes>
+    </div>
+  );
 }
 
 export default App;
