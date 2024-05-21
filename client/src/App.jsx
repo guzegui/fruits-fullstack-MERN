@@ -18,14 +18,17 @@ function App() {
     axios
       .get(`${fruit_url}/fruit`)
       .then((response) => {
-        console.log(response.data);
         setFruit(response.data);
         setFruitFromAPI(response.data);
       })
       .catch((e) => console.log(`Error fetching data => ${e.message}`));
   }, []);
 
-  const randomFruit = Math.floor(Math.random() * fruitFromAPI.length);
+  const randomFruit = () => {
+    if (fruitFromAPI){
+      return fruitFromAPI[Math.floor(Math.random() * fruitFromAPI.length)]._id;
+    } 
+  };
 
   return (
     <div className="App">
@@ -51,7 +54,7 @@ function App() {
             />
           }
         />
-        <Route path="/random-fruit" element={<RandomFruitPage />} />
+        <Route path="/random-fruit" element={<RandomFruitPage randomFruit={randomFruit}  />} />
         <Route path="/new-fruit" element={<AddFruitPage />} />
         <Route path="/fruit/:id" element={<FruitDetailsPage />} />
       </Routes>
