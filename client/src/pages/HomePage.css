@@ -1,0 +1,23 @@
+.container {
+    margin-top: 5rem;
+  }
+  
+  .clickable-card {
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  .clickable-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .card-img-top {
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .card-group > .card {
+    flex: 1 0 30%;
+    margin: 10px;
+  }
+  

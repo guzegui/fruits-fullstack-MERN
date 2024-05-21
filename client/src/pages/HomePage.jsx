@@ -1,27 +1,58 @@
-import { Link } from "react-router-dom";
+import React from "react";
+import { LinkContainer } from "react-router-bootstrap";
+import Card from "react-bootstrap/Card";
+import CardGroup from "react-bootstrap/CardGroup";
+import "../index.css"; // Import the consolidated CSS file
 
 function HomePage() {
   return (
-    <div className="container">
-      <Link to="/fruit">
-        <h1>All Fruit</h1>
-      </Link>
-      <Link to="/random-fruit">
-        <h1>Random Fruit</h1>
-      </Link>
-      <Link to="/new-fruit">
-        <h1>New Fruit</h1>
-      </Link>
+    <div className="container mt-5">
+      <CardGroup>
+        <LinkContainer to="/fruit">
+          <Card className="clickable-card">
+            <Card.Img variant="top" src="/images/all-fruit.jpg" alt="All Fruit" />
+            <Card.Body>
+              <Card.Title>All Fruit</Card.Title>
+              <Card.Text>
+                Browse through all the available fruit
+              </Card.Text>
+            </Card.Body>
+            <Card.Footer>
+              <small className="text-muted">Go to All Fruit</small>
+            </Card.Footer>
+          </Card>
+        </LinkContainer>
+        <LinkContainer to="/random-fruit">
+          <Card className="clickable-card">
+            <Card.Img variant="top" src="/images/random-fruit.jpg" alt="Random Fruit" />
+            <Card.Body>
+              <Card.Title>Random Fruit</Card.Title>
+              <Card.Text>
+                Get a random fruit&apos;s details from the collection
+              </Card.Text>
+            </Card.Body>
+            <Card.Footer>
+              <small className="text-muted">Go to Random Fruit</small>
+            </Card.Footer>
+          </Card>
+        </LinkContainer>
+        <LinkContainer to="/new-fruit">
+          <Card className="clickable-card">
+            <Card.Img variant="top" src="/images/add-fruit.jpg" alt="New Fruit" />
+            <Card.Body>
+              <Card.Title>New Fruit</Card.Title>
+              <Card.Text>
+                Add a new element to the database
+              </Card.Text>
+            </Card.Body>
+            <Card.Footer>
+              <small className="text-muted">Go to New Fruit</small>
+            </Card.Footer>
+          </Card>
+        </LinkContainer>
+      </CardGroup>
     </div>
   );
 }
 
-/*
-<Route path="/" element={<HomePage />} />
-        <Route path="/fruit" element={<AllFruitPage />} />
-        <Route path="/random-fruit" element={<RandomFruitPage />} />
-        <Route path="/new-fruit" element={<AddFruitPage />} />
-        <Route path="/fruit/:id" element={<FruitDetailsPage />} />
-
-*/
 export default HomePage;

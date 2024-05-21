@@ -1,29 +1,24 @@
 import { useState, useEffect } from "react";
 import "../App.css";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  InputGroup,
+  ListGroup,
+  Badge,
+} from "react-bootstrap";
 
-const fruit_url = "http://localhost:5005";
-
-function AllFruitPage() {
-  const [fruit, setFruit] = useState([]);
-  const [fruitFromAPI, setFruitFromAPI] = useState([]);
+function AllFruitPage({ fruitFromAPI, fruit, setFruit }) {
   const [searchFruit, setSearchFruit] = useState("");
 
   useEffect(() => {
-    axios
-      .get(`${fruit_url}/fruit`)
-      .then((response) => {
-        console.log(response.data);
-        setFruit(response.data);
-        setFruitFromAPI(response.data);
-      })
-      .catch((e) => console.log(`Error fetching data => ${e.message}`));
-  }, []);
-
-  useEffect(() => {
-    filterFruit();
-  }, [searchFruit]);
+    if (fruitFromAPI.length > 0) {
+      filterFruit();
+    }
+  }, [searchFruit, fruitFromAPI]);
 
   const filterFruit = () => {
     const filteredFruit = fruitFromAPI.filter((fruit) => {
@@ -33,42 +28,55 @@ function AllFruitPage() {
   };
 
   const handleChange = (e) => {
-    const newFruit = e.target.value.toLowerCase();
-    setSearchFruit(newFruit);
+    setSearchFruit(e.target.value.toLowerCase());
   };
 
+  if (!fruitFromAPI || !fruit) return <p>Loading...</p>;
+
   return (
-    <div className="list-group">
-      <input
-        onChange={handleChange}
-        value={searchFruit}
-        placeholder="Search Fruit"
-      />
-      <br />
-      <ul>
+    <Container className="mt-4">
+      <Row>
+        <Col md={6} className="mb-3">
+          <InputGroup>
+            <InputGroup.Text>Search Fruit</InputGroup.Text>
+            <Form.Control
+              onChange={handleChange}
+              value={searchFruit}
+              placeholder="Search Fruit"
+            />
+          </InputGroup>
+        </Col>
+      </Row>
+      <ListGroup>
         {fruit.map((fruit) => (
-          <li
-            className="list-group-item list-group-item-action"
-            key={fruit._id}
-          >
-            <Link to={`/fruit/${fruit._id}`} className="text-dark">
-              <span style={{ fontSize: "50px" }}>{fruit.image_url}</span>
-              <div className="container">
-                <h3>{fruit.name}</h3>
-                <p style={{ color: "grey" }}>{fruit.description}</p>
-              </div>
+          <ListGroup.Item key={fruit._id} className="mb-3">
+            <Link
+              to={`/fruit/${fruit._id}`}
+              className="text-dark text-decoration-none"
+            >
+              <Row>
+                <Col md={2}>
+                  <span style={{ fontSize: "50px" }}>{fruit.image_url}</span>
+                </Col>
+                <Col md={10}>
+                  <h3>{fruit.name}</h3>
+                  <p className="text-muted">{fruit.description}</p>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  {fruit.uses.map((use, index) => (
+                    <Badge key={index} bg="primary" className="me-2 mb-2">
+                      {use}
+                    </Badge>
+                  ))}
+                </Col>
+              </Row>
             </Link>
-            <div>
-              {fruit.uses.map((use, index) => (
-                <span key={index} className="badge bg-primary me-2 mb-2">
-                  {use}
-                </span>
-              ))}
-            </div>
-          </li>
+          </ListGroup.Item>
         ))}
-      </ul>
-    </div>
+      </ListGroup>
+    </Container>
   );
 }
 

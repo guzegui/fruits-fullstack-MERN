@@ -1,11 +1,30 @@
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Navbar, Nav, Container } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
-function Navbar() {
+function NavBar() {
   return (
-    <nav className="navbar navbar-dark bg-primary mb-3">
-      <Link to="/">Home Page</Link>
-    </nav>
+    <Navbar bg="light" expand="lg">
+      <Container>
+        <Navbar.Brand href="/">Fruit App</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <LinkContainer to="/new-fruit">
+              <Nav.Link>Add Fruit</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/fruit">
+              <Nav.Link>All Fruit</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/random-fruit">
+              <Nav.Link>Random Fruit</Nav.Link>
+            </LinkContainer>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
 
-export default Navbar;
+export default NavBar;
+
