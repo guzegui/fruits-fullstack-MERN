@@ -4,6 +4,10 @@ const Fruit = require("./../models/Fruit.model");
 
 const { validateFruit } = require("../error-handling/fruit-errors");
 
+const { isAuthenticated } = require("./../middleware/jwt.middleware.js"); // <== IMPORT
+
+//
+
 router.get("/", (req, res, next) => {
   Fruit.find()
     .then((Fruit) => {
