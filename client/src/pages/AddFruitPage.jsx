@@ -157,6 +157,7 @@ const AddFruitPage = () => {
       .catch((error) => {
         console.error("Error adding fruit:", error.response.data.message);
         alert(`Error: ${error.response.data.message}`);
+        console.error("complete error", error.request);
       });
   };
 
