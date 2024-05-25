@@ -21,6 +21,20 @@ function FruitDetailsPage() {
     return;
   }
 
+  const formatNames = (string) => {
+    const regexUppercase = /[A-Z]/g;
+
+    let newString = string.charAt(0).toUpperCase() + string.slice(1);
+
+    if (newString.match(regexUppercase).length > 1) {
+      return (
+        newString.slice(0, newString.length - 1) + " " + newString.slice(-1)
+      );
+    } else {
+      return newString;
+    }
+  };
+
   return (
     <Container className="mt-4">
       <Card className="shadow-sm">
@@ -78,7 +92,7 @@ function FruitDetailsPage() {
                     {Object.entries(fruit.nutritional_values.vitamins).map(
                       ([key, value]) => (
                         <li key={key}>
-                          {key}: {value}% Daily Value
+                          {formatNames(key)}: {value}% Daily Value
                         </li>
                       )
                     )}
@@ -90,7 +104,7 @@ function FruitDetailsPage() {
                     {Object.entries(fruit.nutritional_values.minerals).map(
                       ([key, value]) => (
                         <li key={key}>
-                          {key}: {value}% Daily Value
+                          {formatNames(key)}: {value}% Daily Value
                         </li>
                       )
                     )}

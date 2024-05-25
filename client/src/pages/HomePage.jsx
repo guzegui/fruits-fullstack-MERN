@@ -1,12 +1,15 @@
-import React from "react";
+import { useContext } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/CardGroup";
-import "../index.css"; // Import the consolidated CSS file
+import "../index.css";
+import { ThemeContext } from "../context/theme.context";
 
 function HomePage() {
+  const value = useContext(ThemeContext); 
+
   return (
-    <div className="container mt-5">
+    <div className={`container mt-5 ${value === "dark" ? "dark-theme" : ""}`}>
       <CardGroup>
         <LinkContainer to="/fruit">
           <Card className="clickable-card">
