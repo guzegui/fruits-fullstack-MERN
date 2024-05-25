@@ -23,10 +23,16 @@ function FruitDetailsPage() {
 
   const formatNames = (string) => {
     const regexUppercase = /[A-Z]/g;
-
+    const regexNumbers = /[0-9]/g;
+  
     let newString = string.charAt(0).toUpperCase() + string.slice(1);
-
+  
     if (newString.match(regexUppercase).length > 1) {
+      if (regexNumbers.test(newString) == true) {
+        return (
+          newString.slice(0, newString.length - 2) + " " + newString.slice(-2)
+        );
+      }
       return (
         newString.slice(0, newString.length - 1) + " " + newString.slice(-1)
       );
