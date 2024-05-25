@@ -29,8 +29,7 @@ router.get("/:id", (req, res, next) => {
 router.post(
   "/",
   validateFruit,
-  isAuthenticated,
-  roleValidation(["admin"]),
+  roleValidation(["admin"]), isAuthenticated,
   (req, res, next) => {
     Fruit.create(req.body)
       .then((newProduct) => {
