@@ -4,7 +4,9 @@ const Fruit = require("./../models/Fruit.model");
 
 const { validateFruit } = require("../error-handling/fruit-errors");
 
-const { isAuthenticated } = require("./../middleware/jwt.middleware.js"); // <== IMPORT
+const { isAuthenticated } = require("./../middleware/jwt.middleware");
+
+const roleValidation = require("../middleware/roleValidation");
 
 //
 
@@ -24,13 +26,19 @@ router.get("/:id", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.post("/", validateFruit, (req, res, next) => {
-  Fruit.create(req.body)
-    .then((newProduct) => {
-      res.json(newProduct);
-    })
-    .catch((err) => next(err));
-});
+router.post(
+  "/",
+  validateFruit,
+  isAuthenticated,
+  roleValidation(["admin"]),
+  (req, res, next) => {
+    Fruit.create(req.body)
+      .then((newProduct) => {
+        res.json(newProduct);
+      })
+      .catch((err) => next(err));
+  }
+);
 
 router.put("/:id", validateFruit, (req, res, next) => {
   const { id } = req.params;
