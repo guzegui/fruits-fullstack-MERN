@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Card, Badge, Container, Row, Col } from "react-bootstrap";
+import FruitDetailsPlaceholder from "../components/FruitDetailsPlaceholder";
+import "../index.css";
 
 const fruit_url = "http://localhost:5005/fruit";
 
@@ -16,7 +18,7 @@ function FruitDetailsPage() {
   }, [id]);
 
   if (!fruit) {
-    return <p>Loading...</p>;
+    return;
   }
 
   return (
