@@ -5,7 +5,7 @@ const ThemeContext = createContext();
 // CREATE A WRAPPER COMPONENT
 function ThemeProviderWrapper(props) {
   return (
-    <ThemeContext.Provider value={"dark"}>
+    <ThemeContext.Provider value={"light"}>
       {props.children}
     </ThemeContext.Provider>
   );

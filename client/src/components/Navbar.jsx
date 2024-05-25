@@ -9,10 +9,15 @@ import {
   Button,
 } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { useContext } from "react";
+import { ThemeContext } from "../context/theme.context";
 
 function NavBar() {
+  const value = useContext(ThemeContext);
+  const variant = value === "dark" ? "dark" : "light";
+
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg={value} variant={variant} expand="lg">
       <Container>
         <Navbar.Brand href="/">Fruit App</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
