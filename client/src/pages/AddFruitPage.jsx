@@ -155,13 +155,8 @@ const AddFruitPage = () => {
         navigate(`/fruit/${response.data._id}`);
       })
       .catch((error) => {
-        if (error.response) {
-          console.error("Error adding fruit:", error.response.data);
-          alert(`Error: ${error.response.data}`);
-        } else {
-          console.error("Error adding fruit:", error.message);
-          alert(`Error: ${error.message}`);
-        }
+        console.error("Error adding fruit:", error.response.data.message);
+        alert(`Error: ${error.response.data.message}`);
       });
   };
 
@@ -175,7 +170,7 @@ const AddFruitPage = () => {
             <Form.Control
               type="text"
               name="name"
-              value={fruitData.name || "Apple"}
+              value={fruitData.name}
               onChange={handleChange}
             />
           </Form.Group>

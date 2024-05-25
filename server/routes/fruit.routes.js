@@ -40,6 +40,21 @@ router.post(
   }
 );
 
+
+// without validation
+/*
+router.post(
+  "/",
+  validateFruit,
+  (req, res, next) => {
+    Fruit.create(req.body)
+      .then((newProduct) => {
+        res.json(newProduct);
+      })
+      .catch((err) => next(err));
+  }
+);
+*/
 router.put(
   "/:id",
   validateFruit,

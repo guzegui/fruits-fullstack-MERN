@@ -37,7 +37,7 @@ const validateFruit = (req, res, next) => {
   ];
 
 if (!name) {
-      return res.status(400).json(`Fruit is missing required field: ${name}.`);
+      return res.status(400).json({message: `Fruit is missing required field: name.`});
     }
   
 
