@@ -7,12 +7,15 @@ import AddFruitPage from "./pages/AddFruitPage";
 import FruitDetailsPage from "./pages/FruitDetailsPage";
 import NavBar from "./components/Navbar";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { ThemeContext } from "./context/theme.context";
 
 function App() {
   const [fruitFromAPI, setFruitFromAPI] = useState([]);
   const fruit_url = "http://localhost:5005";
   const [fruit, setFruit] = useState([]);
+
+  const { theme } = useContext(ThemeContext); 
 
   useEffect(() => {
     axios
@@ -25,13 +28,13 @@ function App() {
   }, []);
 
   const randomFruit = () => {
-    if (fruitFromAPI){
+    if (fruitFromAPI) {
       return fruitFromAPI[Math.floor(Math.random() * fruitFromAPI.length)]._id;
-    } 
+    }
   };
 
   return (
-    <div className="App">
+    <div className={"App" + theme}>
       <NavBar />
       <Routes>
         <Route
@@ -54,7 +57,10 @@ function App() {
             />
           }
         />
-        <Route path="/random-fruit" element={<RandomFruitPage randomFruit={randomFruit}  />} />
+        <Route
+          path="/random-fruit"
+          element={<RandomFruitPage randomFruit={randomFruit} />}
+        />
         <Route path="/new-fruit" element={<AddFruitPage />} />
         <Route path="/fruit/:id" element={<FruitDetailsPage />} />
       </Routes>

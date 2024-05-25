@@ -6,10 +6,9 @@ import "../index.css";
 import { ThemeContext } from "../context/theme.context";
 
 function HomePage() {
-  const value = useContext(ThemeContext); 
-
+  const { theme } = useContext(ThemeContext); 
   return (
-    <div className={`container mt-5 ${value === "dark" ? "dark-theme" : ""}`}>
+    <div className={"container mt-5" + theme}>
       <CardGroup>
         <LinkContainer to="/fruit">
           <Card className="clickable-card">

@@ -1,6 +1,11 @@
 // middleware/roleValidation.js
 const roleValidation = (roles) => {
   return (req, res, next) => {
+    if (!req.payload || !req.payload.role) {
+      return res.status(401).json({
+        message: "Unauthorized: No user is logged in or no role is assigned.",
+      });
+    }
     if (!roles.includes(req.payload.role)) {
       return res.status(403).json({
         message:

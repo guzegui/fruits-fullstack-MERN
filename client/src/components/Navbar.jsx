@@ -13,11 +13,11 @@ import { useContext } from "react";
 import { ThemeContext } from "../context/theme.context";
 
 function NavBar() {
-  const value = useContext(ThemeContext);
-  const variant = value === "dark" ? "dark" : "light";
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  const variant = theme === "dark" ? "dark" : "light";
 
   return (
-    <Navbar bg={value} variant={variant} expand="lg">
+    <Navbar bg={theme} variant={variant} expand="lg">
       <Container>
         <Navbar.Brand href="/">Fruit App</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -54,6 +54,9 @@ function NavBar() {
             <LinkContainer to="/sign-up">
               <Nav.Link>Sign Up</Nav.Link>
             </LinkContainer>
+            <Button className="theme-btn" onClick={toggleTheme}>
+              {theme === "light" ? "dark " : "light "}
+            </Button>
           </Nav>
         </Navbar.Collapse>
       </Container>
