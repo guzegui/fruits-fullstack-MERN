@@ -40,24 +40,35 @@ router.post(
   }
 );
 
-router.put("/:id", validateFruit, (req, res, next) => {
-  const { id } = req.params;
-  console.log(id);
-  console.log(req.params);
-  Fruit.findByIdAndUpdate(id, req.body, { new: true })
-    .then((updatedProduct) => {
-      res.json(updatedProduct);
-    })
-    .catch((err) => next(err));
-});
+router.put(
+  "/:id",
+  validateFruit,
+  isAuthenticated,
+  roleValidation(["admin"]),
+  (req, res, next) => {
+    const { id } = req.params;
+    console.log(id);
+    console.log(req.params);
+    Fruit.findByIdAndUpdate(id, req.body, { new: true })
+      .then((updatedProduct) => {
+        res.json(updatedProduct);
+      })
+      .catch((err) => next(err));
+  }
+);
 
-router.delete("/:id", (req, res, next) => {
-  const { id } = req.params;
-  Fruit.findByIdAndDelete(id)
-    .then((deletedProduct) => {
-      res.json(deletedProduct);
-    })
-    .catch((err) => next(err));
-});
+router.delete(
+  "/:id",
+  isAuthenticated,
+  roleValidation(["admin"]),
+  (req, res, next) => {
+    const { id } = req.params;
+    Fruit.findByIdAndDelete(id)
+      .then((deletedProduct) => {
+        res.json(deletedProduct);
+      })
+      .catch((err) => next(err));
+  }
+);
 
 module.exports = router;
